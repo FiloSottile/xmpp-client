@@ -15,6 +15,7 @@ import (
 	"os/exec"
 	"os/signal"
 	"path/filepath"
+	"reflect"
 	"strconv"
 	"strings"
 	"sync"
@@ -475,6 +476,12 @@ MainLoop:
 					}
 				}
 				break MainLoop
+			case setConfigOptionCommand:
+				f := reflect.ValueOf(config).Elem().FieldByName(cmd.Option)
+				if !f.IsValid() || !f.CanSet() {
+					alert(s.term, "Option not found: "+cmd.Option)
+					continue
+				}
 			case versionCommand:
 				replyChan, cookie, err := s.conn.SendIQ(cmd.User, "get", xmpp.VersionQuery{})
 				if err != nil {

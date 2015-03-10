@@ -37,6 +37,7 @@ var uiCommands = []uiCommand{
 	{"rostereditdone", rosterEditDoneCommand{}, "Load the edited roster from disk"},
 	{"rosteredit", rosterEditCommand{}, "Write the roster to disk"},
 	{"roster", rosterCommand{}, "Display the current roster"},
+	{"setopt", setConfigOptionCommand{}, "Set a config option for the next run"},
 	{"statusupdates", toggleStatusUpdatesCommand{}, "Toggle if status updates are displayed"},
 	{"version", versionCommand{}, "Ask a Jabber client for its version"},
 	{"xa", xaCommand{}, "Set your status to Extended Away"},
@@ -114,6 +115,11 @@ type msgCommand struct {
 }
 
 type toggleStatusUpdatesCommand struct{}
+
+type setConfigOptionCommand struct {
+	Option string
+	Value  string
+}
 
 func numPositionalFields(t reflect.Type) int {
 	for i := 0; i < t.NumField(); i++ {
